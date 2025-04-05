@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "crypto": "^1.0.1",
-    "http": "^0.0.1-security"
+    "express": "^5.1.0",
+    "http": "^0.0.1-security",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   }
 }
