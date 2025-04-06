@@ -2,8 +2,8 @@
 import BootstrapServices from './services.js';
 
 class BootstrapModule {
-  static host(ip, port) {
-    return BootstrapServices.host(ip, port);
+  static host(ip, port, code) {
+    return BootstrapServices.host(ip, port, code);
   }
 }
 

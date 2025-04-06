@@ -1,23 +1,52 @@
 // daemon.js
-import { createApp, startServer, logMessage, BootstrapModule } from './services.js';
+import Services from './services.js';
+import BootstrapModule from './modules/bootstrap/main.js';
 
-const app = createApp();
+const db = Services.createDatabase();
+const collections = Services.initDatabase(db);
 
-// Rutas HTTP expuestas por el daemon
+const app = Services.createApp();
 
 app.get('/', (req, res) => {
-    res.send('Daemon Express está corriendo');
+    res.send('Daemon Express is running');
 });
 
-app.post('/host', (req, res) => {
+app.post('/host/start', async (req, res) => {
     const { ip, port } = req.body;
 
-    const response = BootstrapModule.host(ip, port);
+    if (!ip || !port) {
+        res.status(400).send("Missing host data");
+    }
 
-    res.status(200).send(response);
+    try {
+        Services.storeHost(collections, ip, port);
+        const { inviteCode } = Services.getHostInfo(collections);
+        const response = BootstrapModule.host(ip, port, inviteCode);
+        res.status(200).send(response);
+    } catch (error) {
+        res.status(500).send(`Internal server error: ${error}`);
+    }
 });
 
-startServer(app);
+app.get('/host/check', (req, res) => {
+    try {
+        const hostInfo = Services.getHostInfo(collections);
+        res.status(200).json({message: "Host checked.", value: hostInfo});
+    } catch (error) {
+        res.status(500).send(`Internal server error: ${error}`);
+    }
+});
+
+app.get('/host/get-invite', (req, res) => {
+    try {
+        const inviteInfo = Services.getInvite(collections);
+        res.status(200).json({message: `Invite Generated, invite link: ${inviteInfo.link}`, value: inviteInfo.code});
+    } catch (error) {
+        res.status(500).send(`Internal server error: ${error}`);
+    }
+});
+
+Services.startServer(app);
 
 // app.get('/invite', (req, res) => {
 //     const code = Bootstrap.generateInvite();
