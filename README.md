@@ -1,3 +1,9 @@
+## Estado del proyecto
+
+Actualmente en fase de rediseño, enfocado en estabilidad, rendimiento local y facilidad de extensión. Elementos como Gun y el servidor Bootstrap fueron eliminados para simplificar y fortalecer la arquitectura.
+
+---
+
 # SteChat
 
 **SteChat** es un proyecto de chat descentralizado que funciona mediante un núcleo central o *daemon core*, encargado de gestionar la lógica de red y la comunicación local entre interfaces. Su arquitectura permite múltiples interfaces (como CLI o GUI) que se comunican con el core a través de la red local, manteniendo una separación clara entre lógica y presentación.
