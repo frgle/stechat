@@ -1,33 +1,28 @@
 # SteChat
 
-SteChat es un chat descentralizado basado en tecnología peer-to-peer (P2P) que permite a los usuarios comunicarse de manera directa, sin necesidad de servidores centrales. Utiliza Gun para la comunicación P2P y Express para hostear el servidor bootstrap que ayuda a los nuevos usuarios a unirse a la red de chat específica.
+**SteChat** es un proyecto de chat descentralizado que funciona mediante un núcleo central o *daemon core*, encargado de gestionar la lógica de red y la comunicación local entre interfaces. Su arquitectura permite múltiples interfaces (como CLI o GUI) que se comunican con el core a través de la red local, manteniendo una separación clara entre lógica y presentación.
 
-## Descripción
+## ¿Cómo funciona?
 
-Este proyecto implementa un sistema de chat en el que los usuarios pueden unirse a salas de chat privadas de forma completamente descentralizada. Cada sala de chat tiene un anfitrión que ejecuta un servidor bootstrap local (hosteado en su máquina), que facilita la conexión de los nuevos usuarios a la red P2P de esa sala específica.
+SteChat se basa en un modelo modular:
 
-## Características principales
+- **Daemon Core**: Es el corazón del sistema. Corre como un servicio local que maneja conexiones, mensajes y persistencia. Todas las interfaces se conectan a este core para enviar y recibir mensajes.
+  
+- **Interfaces Independientes**: Las interfaces (CLI, GUI, etc.) son aplicaciones separadas que interactúan con el core mediante una API local. Esto permite desarrollar nuevas formas de interactuar con el chat sin modificar la lógica base.
 
-### Comunicación P2P: 
-La comunicación entre los usuarios se realiza de manera directa, sin necesidad de un servidor central. Usamos Gun, una base de datos descentralizada y en tiempo real.
+- **Sin servidor central**: No existe un servidor central ni punto único de falla. La comunicación se realiza directamente entre nodos en la red local o mediante mecanismos de descubrimiento entre pares.
 
-### Servidor Bootstrap: 
-El anfitrión de cada chat ejecuta un servidor bootstrap en su máquina local para permitir que los nuevos usuarios se conecten a la red P2P de ese chat. Este servidor también gestiona los códigos de invitación que los usuarios deben usar para unirse a la red.
+## Características
 
-### Salas de Chat: 
-Las salas de chat son privadas, y el creador o anfitrión tiene control sobre quién puede unirse a la sala mediante un código de invitación. Los usuarios que tengan este código pueden unirse a la red y comenzar a chatear.
+- 🔌 **Arquitectura modular**: Separación completa entre backend (core) y frontend (interfaces).
+- 🖥️ **Interfaces múltiples**: Inicialmente se incluyen CLI y GUI, con posibilidad de expandir a móviles u otros entornos.
+- 🌐 **Descentralización real**: No se depende de servicios externos ni servidores centrales.
+- 🛠️ **Extensible**: Fácil de adaptar e integrar nuevas funcionalidades o interfaces.
 
-## Principales Componentes
+## Estado del proyecto
 
-### CLI: 
-La interfaz de línea de comandos permite a los usuarios interactuar con el chat sin necesidad de una interfaz gráfica. Es ideal para usuarios avanzados o aquellos que prefieren trabajar en un terminal.
+Actualmente en fase de rediseño, enfocado en estabilidad, rendimiento local y facilidad de extensión. Elementos como Gun y el servidor Bootstrap fueron eliminados para simplificar y fortalecer la arquitectura.
 
-### GUI: 
-La interfaz gráfica de usuario proporciona una forma visual de interactuar con el chat, lo que lo hace más accesible para un público más amplio. Permite chatear, unirse a la red y gestionar las conexiones P2P de forma intuitiva.
+---
 
-### Bootstrap Server: 
-El anfitrión del chat ejecuta un servidor Express que facilita la conexión de nuevos usuarios a la red P2P. Este servidor también se encarga de generar códigos de invitación para cada chat. El código de invitación se utiliza para permitir que los nuevos usuarios se conecten al chat.
-
-### Gun: 
-Utilizamos Gun, una base de datos descentralizada, para gestionar la comunicación en tiempo real entre los usuarios. Gun maneja la sincronización de los mensajes y la conexión P2P entre los participantes del chat.
-
+**Nota**: Este proyecto está en desarrollo activo. Se recomienda clonar y ejecutar cada componente por separado, siguiendo la documentación específica de cada interfaz y del daemon core.
